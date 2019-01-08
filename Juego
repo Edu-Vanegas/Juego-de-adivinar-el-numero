@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+    <head>
+
+    </head>
+    <body>
+     <h1>Juego de Adivinar el numero!! Tienes 10 intentos</h1>
+     <p>Adivina el numero del 1 al 100</p>
+     <label> Adivina el numero!!</label><input type='text' id='numeroUsado' class='numeroUsado'>
+     <input type='submit' value='Enviar Numero' id='enviarNumero' class='enviarNumero'>
+     <div class='parra'>
+     <p class='intentos'></p>
+     <p class='alerta'></p>
+     </div>
+
+
+        <script type='text/javascript'>
+        var numeroRandom = Math.floor(Math.random()*99)+1;
+        var entrada = document.querySelector('.numeroUsado');
+        var btnS = document.querySelector('.enviarNumero');
+        var attens = document.querySelector('.intentos');
+        var aviso = document.querySelector('.alerta')
+
+        var contador = 1;
+        var reset;
+
+      
+
+        function iniciarJuego(){
+            var intent = Number(entrada.value);
+            if(contador === 1){
+                attens.textContent = 'Tus ultimos intentos: ';
+            }
+            attens.textContent += intent + ' ';
+            if(intent === numeroRandom){
+            aviso.textContent = 'Genial lo adivinaste';
+            aviso.style.color = 'white';
+            aviso.style.backgroundColor = 'green'; 
+            Game_Over();
+            }  
+            else if (contador === 10){
+            aviso.textContent = 'Game Over!';
+            Game_Over();
+            }
+            else{
+                aviso.textContent = 'Error!!';
+                aviso.style.color = 'white';
+                aviso.style.backgroundColor = 'red';
+            }
+            if(intent < numeroRandom){
+                aviso.textContent = 'El numero es un poco mas alto!'
+            }
+            else if (intent > numeroRandom){
+                aviso.textContent = 'El numero es un poco mas menor!'
+            }
+            contador++;
+            entrada.value = '';
+            entrada.focus();
+        }
+        btnS.addEventListener('click',iniciarJuego)
+        
+        function Game_Over(){
+            entrada.disabled = true ;
+            btnS.disabled = true;
+            reset = document.createElement('button');
+            reset.textContent = 'Jugar otra!!';
+            document.body.appendChild(reset);
+            reset.addEventListener('click',Otra);
+        }
+        
+        function Otra(){
+            contador = 1;
+
+            var resetparras = document.querySelectorAll('.parra p');
+            for (var i=0;i<resetparras.length;i++){
+                resetparras[i].textContent = '';
+            }
+
+            reset.parentNode.removeChild(reset);
+
+            entrada.disabled = false;
+            btnS.disabled = false;
+            entrada.value = '';
+            attens.textContent= '';
+            aviso.textContent = '';
+            entrada.focus();
+
+            aviso.style.backgroundColor = 'white';
+
+            numeroRandom = Math.floor(Math.random()*100)+1;
+        }
+
+        </script>
+    </body>
+</html>
